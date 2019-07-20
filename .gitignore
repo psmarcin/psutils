@@ -1,0 +1,6 @@
+test/
+.idea
+.vscode
+bin
+main
+psutils
