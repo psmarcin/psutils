@@ -1,4 +1,4 @@
-NAME=ygp-api
+NAME=psutils
 PROJECT_ID=psutils
 IMAGE_TAG=gcr.io/$(PROJECT_ID)/$(NAME)
 
@@ -6,7 +6,7 @@ dev:
 	realize start --name=$(NAME)
 
 dependencies:
-	go get .
+	go mod download
 
 test: dependencies
 	go test ./...

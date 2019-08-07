@@ -3,15 +3,9 @@ settings:
     force: false
     interval: 0s
 schema:
-- name: ygp-api
+- name: psutils
   path: .
-  commands:
-    install:
-      status: true
-      method: go build -o ./bin/app
-    run:
-      status: true
-      method: ./bin/app
+  commands: {}
   watcher:
     extensions:
     - go
