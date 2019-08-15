@@ -8,10 +8,11 @@ import (
 	"github.com/urfave/cli"
 	"os"
 	"path"
+	"psutils/pkg/config"
 	"time"
 )
 
-type config struct {
+type reformatConfig struct {
 	filePath string
 	date     time.Time
 	name     string
@@ -20,22 +21,19 @@ type config struct {
 
 var l log.Logger
 
-const (
-	DateLayout = "2006-01"
-)
-
 func init() {
 	l = log.With("package", "invoice")
 }
 
 // Handler holds all logic about create subcommand
 func Handler(c *cli.Context) error {
-	date, err := time.Parse(DateLayout, c.String("date"))
+	conf := config.Load()
+	date, err := time.Parse(conf.Other.MontDateFormat, c.String("date"))
 	if err != nil {
 		return err
 	}
 
-	cfg := config{
+	cfg := reformatConfig{
 		filePath: c.Args().Get(0),
 		date:     date,
 		name:     c.String("name"),
@@ -56,7 +54,7 @@ func Handler(c *cli.Context) error {
 	return nil
 }
 
-func Reformat(c config) error {
+func Reformat(c reformatConfig) error {
 	name := generateName(c.name, c.types, c.date)
 
 	err := rename(c.filePath, name)
@@ -67,7 +65,7 @@ func Reformat(c config) error {
 	return nil
 }
 
-func validate(c config) error {
+func validate(c reformatConfig) error {
 	if c.filePath == "" {
 		return errors.New("FILE_PATH is required, given " + c.filePath)
 	}

@@ -1,0 +1,29 @@
+<center>Protokol odbioru wykonania uslugi za miesiac {{ .Month }} rok.</center> <br></br><br></br>
+
+<b>Zamawiajacy</b><br>
+{{ .Customer.Name }}<br>
+{{ .Customer.Address1 }}<br>
+{{ .Customer.Address2 }}<br>
+{{ .Customer.Nip }}<br><br></br>
+
+<b>Wykonawca</b><br>
+{{ .Seller.Name }}<br>
+{{ .Seller.Address1 }}<br>
+{{ .Seller.Address2 }}<br>
+{{ .Seller.Nip }}<br><br><br>
+
+Potwierdzam nalezyte wykonanie ponizszych uslug w okresie od {{ .StartDate }} do {{ .EndDate }}:<br>
+<ul>
+{{ range $i, $e := .Items }}
+    <li>{{ $i }}. {{ $e }}</li>
+{{ end }}
+</ul>
+<br><br><br>
+
+Zamawiajacy dokonuje odbioru wyzej wymienionych uslug i stwierdza, ze zamowienie zostalo zrealizowane zgodnie z zakresem okreslonym w umowie.<br><br></br>
+
+Zamawiajacy<br>
+......................................................<br><br><br><br>
+
+Wykonawca<br>
+......................................................<br>

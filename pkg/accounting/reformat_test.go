@@ -23,7 +23,7 @@ func Test_generateName(t *testing.T) {
 		want string
 	}{
 		{
-			name: "should return correct file name",
+			name: "should return correct file Name",
 			args: args{
 				name: "serwer vpn",
 				date: date,
