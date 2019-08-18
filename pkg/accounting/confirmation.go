@@ -2,17 +2,22 @@ package accounting
 
 import (
 	"bytes"
+	"psutils/pkg/config"
+	"text/template"
+	"time"
+
+	rice "github.com/GeertJohan/go.rice"
 	"github.com/jinzhu/now"
 	"github.com/jung-kurt/gofpdf"
 	"github.com/prometheus/common/log"
 	"github.com/urfave/cli"
-	"path/filepath"
-	"psutils/pkg/config"
-	"text/template"
-	"time"
 )
 
-var t *template.Template
+var (
+	tmpls *rice.Box
+	tmplConfirmation *template.Template
+)
+
 
 type ConfirmationConfig struct {
 	Date      time.Time
@@ -28,11 +33,12 @@ var payload = ConfirmationConfig{
 	Date: time.Time{},
 }
 
-func init() {
-	t = template.Must(template.ParseFiles(filepath.Join("pkg", "accounting", "templates", "confirmation.tmpl")))
-}
-
 func CreateConfirmation(c *cli.Context) {
+	err := embedAssets()
+	if err !=nil{
+		log.With("err", err).Fatalf("Can't load embeded assets")
+	}
+
 	conf := config.Load()
 
 	date, err := time.Parse(conf.Other.MontDateFormat, c.String("date"))
@@ -60,7 +66,7 @@ func CreateConfirmation(c *cli.Context) {
 		_, lineHt := pdf.GetFontSize()
 
 		reader := bytes.NewBufferString("")
-		err := t.Execute(reader, payload)
+		err := tmplConfirmation.Execute(reader, payload)
 		if err != nil {
 			log.With("err", err).Fatalf("can't parse tmpl")
 			return
@@ -79,4 +85,19 @@ func CreateConfirmation(c *cli.Context) {
 	if err != nil {
 		log.With("err", err).Fatal("creating output file")
 	}
+}
+
+func embedAssets() error {
+	tmpls = rice.MustFindBox("templates")
+	tmplConfirmationString, err := tmpls.String("confirmation.tmpl")
+	if err != nil {
+		return err
+	}
+
+	tmplConfirmation, err = template.New("confirmation").Parse(tmplConfirmationString)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

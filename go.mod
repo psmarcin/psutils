@@ -3,6 +3,7 @@ module psutils
 go 1.12
 
 require (
+	github.com/GeertJohan/go.rice v1.0.0
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
 	github.com/alecthomas/units v0.0.0-20190717042225-c3de453c63f4 // indirect
 	github.com/iancoleman/strcase v0.0.0-20190422225806-e506e3ef7365

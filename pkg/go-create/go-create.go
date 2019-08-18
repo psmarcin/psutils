@@ -10,6 +10,13 @@ import (
 	"text/template"
 
 	"github.com/urfave/cli"
+
+	rice "github.com/GeertJohan/go.rice"
+)
+
+var (
+	tmpls *rice.Box
+
 )
 
 type config struct {
@@ -71,15 +78,15 @@ func start(cfg config) {
 	files := []fileConfig{{
 		path:         "Makefile",
 		templateName: "makefile",
-		templatePath: "pkg/go-create/templates/makefile",
+		templatePath: "templates",
 	}, {
 		path:         "main.go",
 		templateName: "main",
-		templatePath: "pkg/go-create/templates/main",
+		templatePath: "templates",
 	}, {
 		path:         ".realize.yaml",
 		templateName: "realize",
-		templatePath: "pkg/go-create/templates/realize",
+		templatePath: "templates",
 	}}
 
 	for _, file := range files {
@@ -128,13 +135,21 @@ func cleanupDirectory(path string) error {
 }
 
 func createFile(name, path, templatePath string, cfg config) error {
-	t := template.Must(template.New(name).ParseFiles(templatePath))
+	source := rice.MustFindBox(templatePath)
+
+	tmplString, err := source.String(name)
+	if err !=nil{
+		return err
+	}
+
+	tmpl, err := template.New(name).Parse(tmplString)
+
 	file, err := os.Create(path)
 	if err != nil {
 		return err
 	}
 
-	err = t.Execute(file, cfg)
+	err = tmpl.Execute(file, cfg)
 	if err != nil {
 		return err
 	}
