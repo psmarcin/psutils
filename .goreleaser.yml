@@ -88,9 +88,7 @@ brews:
 
     # Packages your package depends on.
     dependencies:
-      - git
-      - zsh
-      - go
+      - bash
 
     # Packages that conflict with your package.
     conflicts:
@@ -99,16 +97,13 @@ brews:
     # Default is empty.
     plist: |
       <?xml version="1.0" encoding="UTF-8"?>
-      ...
 
     # So you can `brew test` your formula.
     # Default is empty.
     test: |
       system "#{bin}/program --version"
-      ...
 
     # Custom install script for brew.
     # Default is 'bin.install "program"'.
     install: |
       bin.install "program"
-      ...
