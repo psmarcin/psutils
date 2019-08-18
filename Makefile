@@ -16,3 +16,9 @@ build: dependencies
 
 debug:
 	dlv debug --headless --listen=:2345 --log --api-version 2
+
+release:
+	goreleaser --rm-dist
+
+release-dev:
+	goreleaser --rm-dist --snapshot
