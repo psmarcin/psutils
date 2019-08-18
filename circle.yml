@@ -1,26 +1,19 @@
+# .circleci/config.yml
+version: 2
+jobs:
+  release:
+    docker:
+      - image: circleci/golang:1.12
+    steps:
+      - checkout
+      - run: curl -sL https://git.io/goreleaser | bash
 workflows:
   version: 2
-  main:
+  release:
     jobs:
-      - build:
-          docker:
-            - image: cibuilds/github:0.10
-          steps:
-            - attach_workspace:
-                at: ./artifacts
-            - run:
-                name: "Publish Release on GitHub"
-                command: |
-                  VERSION=$(my-binary --version)
-                  ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
-          filters:
-            tags:
-              only: /^\d+\.\d+\.\d+$/
-      - publish-github-release:
-          requires:
-            - build
+      - release:
           filters:
             branches:
               ignore: /.*/
             tags:
-              only: /^\d+\.\d+\.\d+$/
+              only: /v[0-9]+(\.[0-9]+)*(-.*)*/
