@@ -9,13 +9,21 @@
 
 ## Install
 
-```sh
+### MacOS
+
+```shell script
+brew tap psmarcin/tap https://github.com/psmarcin/homebrew-tap
+brew install psmarcin/tap/psutils
+```
+
+### Go
+```shell script
 go get github.com/psmarcin/psutils
 ```
 
 ## Usage
 
-```sh
+```shell script
 psutils --help
 ```
 
