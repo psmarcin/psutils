@@ -20,6 +20,19 @@ func main() {
 	app.Usage = "Helper for common tasks"
 	app.Commands = []cli.Command{
 		{
+			Name:    "config",
+			Aliases: []string{"c"},
+			Usage:   "manage your config",
+			Subcommands: []cli.Command{
+				{
+					Name:    "edit",
+					Aliases: []string{"e"},
+					Usage:   "open config file in your default editor",
+					Action:  config.HandleEdit,
+				},
+			},
+		},
+		{
 			Name:    "go",
 			Aliases: []string{"g"},
 			Usage:   "helpers",
