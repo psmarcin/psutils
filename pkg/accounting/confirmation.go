@@ -14,10 +14,9 @@ import (
 )
 
 var (
-	tmpls *rice.Box
+	tmpls            *rice.Box
 	tmplConfirmation *template.Template
 )
-
 
 type ConfirmationConfig struct {
 	Date      time.Time
@@ -34,9 +33,10 @@ var payload = ConfirmationConfig{
 }
 
 func CreateConfirmation(c *cli.Context) {
+	outputPath := c.Args().Get(0)
 	err := embedAssets()
-	if err !=nil{
-		log.With("err", err).Fatalf("Can't load embeded assets")
+	if err != nil {
+		log.With("err", err).Fatalf("Can't load embed assets")
 	}
 
 	conf := config.Load()
@@ -58,7 +58,7 @@ func CreateConfirmation(c *cli.Context) {
 
 	pdf := gofpdf.New("P", "mm", "A4", "")
 	pdf.SetCompression(true)
-	pdf.SetFont("Arial", "", 20)
+	pdf.SetFont("times", "", 14)
 	//_, lineHt := pdf.GetFontSize()
 
 	tmpl := pdf.CreateTemplate(func(tpl *gofpdf.Tpl) {
@@ -81,10 +81,11 @@ func CreateConfirmation(c *cli.Context) {
 	pdf.AddPage()
 	pdf.UseTemplate(tmpl)
 
-	err = pdf.OutputFileAndClose("./test.pdf")
+	err = pdf.OutputFileAndClose(outputPath)
 	if err != nil {
 		log.With("err", err).Fatal("creating output file")
 	}
+
 }
 
 func embedAssets() error {
@@ -94,10 +95,14 @@ func embedAssets() error {
 		return err
 	}
 
-	tmplConfirmation, err = template.New("confirmation").Parse(tmplConfirmationString)
+	tmplConfirmation, err = template.New("confirmation").Funcs(template.FuncMap{"add": add}).Parse(tmplConfirmationString)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func add(x, y int) int {
+	return x + y
 }

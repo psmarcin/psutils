@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/prometheus/common/log"
-	"github.com/urfave/cli"
 	"os"
 	"psutils/pkg/accounting"
 	"psutils/pkg/config"
 	gocreate "psutils/pkg/go-create"
 	"sort"
 	"time"
+
+	"github.com/prometheus/common/log"
+	"github.com/urfave/cli"
 )
 
 func main() {
@@ -85,7 +86,7 @@ func main() {
 			},
 		},
 	}
-	app.Version = "0.1.0"
+	app.Version = "0.5.0"
 
 	sort.Sort(cli.FlagsByName(app.Flags))
 	sort.Sort(cli.CommandsByName(app.Commands))

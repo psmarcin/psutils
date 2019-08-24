@@ -6,16 +6,18 @@
 {{ .Customer.Address2 }}<br>
 {{ .Customer.Nip }}<br><br></br>
 
+<right>
 <b>Wykonawca</b><br>
 {{ .Seller.Name }}<br>
 {{ .Seller.Address1 }}<br>
 {{ .Seller.Address2 }}<br>
 {{ .Seller.Nip }}<br><br><br>
+</right>
 
-Potwierdzam nalezyte wykonanie ponizszych uslug w okresie od {{ .StartDate }} do {{ .EndDate }}:<br>
+Potwierdzam nalezyte wykonanie ponizszych uslug w okresie od {{ .StartDate }} do {{ .EndDate }}:<br><br>
 <ul>
 {{ range $i, $e := .Items }}
-    <li>{{ $i }}. {{ $e }}</li>
+    <li>{{ add $i 1 }}. {{ $e }}</li>
 {{ end }}
 </ul>
 <br><br><br>
