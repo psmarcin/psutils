@@ -1,16 +1,21 @@
 package config
 
 import (
-	"os/exec"
+	"psutils/pkg/utils"
 
 	"github.com/urfave/cli"
 )
 
+var runner utils.Runner
+
+func init() {
+	runner = utils.RealRunner{}
+}
+
 func HandleEdit(c *cli.Context) error {
-	cmd := exec.Command("open", configFilePath)
-	err := cmd.Run()
+	_, err := runner.Run("open", configFilePath)
 	if err != nil {
 		return err
 	}
-	return nil
+	return err
 }
