@@ -112,13 +112,13 @@ func createDefaultFile() error {
 		Accounting: Accounting{
 			Confirmation{
 				Seller: Company{
-					Name:     "Seller Company",
+					Name:     "Company",
 					Address1: "Deepest Hell 4",
 					Address2: "Heaven 123-50000",
 					Nip:      "111111111",
 				},
 				Customer: Company{
-					Name:     "Customer Company",
+					Name:     "Company",
 					Address1: "Forest Guy",
 					Address2: "Fire Stone 178",
 					Nip:      "9999999999",},
