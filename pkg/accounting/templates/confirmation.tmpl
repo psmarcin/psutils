@@ -1,18 +1,16 @@
 <center>Protokol odbioru wykonania uslugi za miesiac {{ .Month }} rok.</center> <br></br><br></br>
 
-<b>Zamawiajacy</b><br>
+<b>Zamawiajacy:</b><br>
 {{ .Customer.Name }}<br>
 {{ .Customer.Address1 }}<br>
 {{ .Customer.Address2 }}<br>
 {{ .Customer.Nip }}<br><br></br>
 
-<right>
-<b>Wykonawca</b><br>
+<b>Wykonawca:</b><br>
 {{ .Seller.Name }}<br>
 {{ .Seller.Address1 }}<br>
 {{ .Seller.Address2 }}<br>
 {{ .Seller.Nip }}<br><br><br>
-</right>
 
 Potwierdzam nalezyte wykonanie ponizszych uslug w okresie od {{ .StartDate }} do {{ .EndDate }}:<br><br>
 <ul>
@@ -24,8 +22,11 @@ Potwierdzam nalezyte wykonanie ponizszych uslug w okresie od {{ .StartDate }} do
 
 Zamawiajacy dokonuje odbioru wyzej wymienionych uslug i stwierdza, ze zamowienie zostalo zrealizowane zgodnie z zakresem okreslonym w umowie.<br><br></br>
 
-Zamawiajacy<br>
-......................................................<br><br><br><br>
-
-Wykonawca<br>
-......................................................<br>
+<p>
+Zamawiajacy:<br><br><br>
+........................
+</p>
+<right>
+Wykonawca:<br><br><br>
+........................
+</right>
