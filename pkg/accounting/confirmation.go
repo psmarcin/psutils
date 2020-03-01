@@ -32,7 +32,7 @@ var payload = ConfirmationConfig{
 	Date: time.Time{},
 }
 
-func CreateConfirmation(c *cli.Context) {
+func ConfirmationHandler(c *cli.Context) {
 	outputPath := c.Args().Get(0)
 	err := embedAssets()
 	if err != nil {

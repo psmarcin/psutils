@@ -84,6 +84,19 @@ func main() {
 					Action: accounting.Handler,
 				},
 				{
+					Name:    "move",
+					Aliases: []string{"m"},
+					Usage:   "move file to monthly directory",
+					Flags: []cli.Flag{
+						cli.StringFlag{
+							Name:  "date, d",
+							Value: time.Now().Format(c.Other.MontDateFormat),
+							Usage: fmt.Sprintf("date for directory in format %s", c.Other.MontDateFormat),
+						},
+					},
+					Action: accounting.MoveHandler,
+				},
+				{
 					Name:    "confirmation",
 					Aliases: []string{"c"},
 					Usage:   "use to create confirmation pdf for G2A",
@@ -94,7 +107,7 @@ func main() {
 							Usage: fmt.Sprintf("date for confirmation in format %s `DATE`-item-faktura.pdf", c.Other.MontDateFormat),
 						},
 					},
-					Action: accounting.CreateConfirmation,
+					Action: accounting.ConfirmationHandler,
 				},
 			},
 		},

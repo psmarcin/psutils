@@ -11,6 +11,7 @@ require (
 	github.com/jung-kurt/gofpdf v1.5.4
 	github.com/pkg/errors v0.8.1
 	github.com/prometheus/common v0.6.0
+	github.com/sirupsen/logrus v1.2.0
 	github.com/urfave/cli v1.20.0
 	golang.org/x/sys v0.0.0-20190312061237-fead79001313 // indirect
 	gopkg.in/yaml.v2 v2.2.2
