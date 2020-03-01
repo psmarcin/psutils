@@ -19,6 +19,7 @@ type Config struct {
 }
 
 type Accounting struct {
+	FilesDirectory string `yaml:"filesDirectory"`
 	Confirmation
 }
 
@@ -110,7 +111,8 @@ func createDefaultFile() error {
 	config := Config{
 		Version: "v1",
 		Accounting: Accounting{
-			Confirmation{
+			FilesDirectory: "~/Downloads",
+			Confirmation: Confirmation{
 				Seller: Company{
 					Name:     "Company",
 					Address1: "Deepest Hell 4",
