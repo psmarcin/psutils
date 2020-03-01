@@ -112,7 +112,7 @@ func main() {
 			},
 		},
 	}
-	app.Version = "0.5.0"
+	app.Version = "0.7.1"
 
 	sort.Sort(cli.FlagsByName(app.Flags))
 	sort.Sort(cli.CommandsByName(app.Commands))
