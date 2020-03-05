@@ -16,8 +16,7 @@ import (
 type moveConfig struct {
 	date               time.Time
 	rootDirPath        string
-	destinationDirPath string
-	destinationPath    string
+	destinationFilePath string
 	sourcePath         string
 }
 
@@ -40,27 +39,27 @@ func MoveHandler(c *cli.Context) error {
 		return errors.Wrap(err, "validate source and destination")
 	}
 
-	dir := generateDirectoryPath(cfg)
-	cfg.destinationPath = path.Join(dir, cfg.sourcePath)
-	cfg.destinationDirPath, _ = path.Split(cfg.destinationPath)
+	rootDestinationDirPath := generateDirectoryPath(cfg.rootDirPath, cfg.date)
+	cfg.destinationFilePath = path.Join(rootDestinationDirPath, cfg.sourcePath)
+	destinationDir, _ := path.Split(cfg.destinationFilePath)
 
-	err = createDestinationDir(cfg.destinationDirPath)
+	err = createDestinationDir(destinationDir)
 	if err != nil {
 		return errors.Wrap(err, "can't create destination directory")
 	}
 
-	err = cp(cfg.sourcePath, path.Join(dir, cfg.sourcePath))
+	err = cp(cfg.sourcePath, cfg.destinationFilePath)
 	if err != nil {
 		return errors.Wrap(err, "can't copy file")
 	}
 
-	logrus.Infof("File moved to %s", cfg.destinationPath)
+	logrus.Infof("File moved to %s", cfg.destinationFilePath)
 	return nil
 }
 
-func generateDirectoryPath(cfg moveConfig) string {
-	mainDir := path.Dir(cfg.destinationDirPath)
-	dirWithDate := path.Join(mainDir, cfg.date.Format("2006 01"))
+func generateDirectoryPath(root string, date time.Time) string {
+	dir := path.Dir(root)
+	dirWithDate := path.Join(dir, date.Format("2006 01"))
 
 	return dirWithDate
 }
@@ -79,7 +78,7 @@ func moveValidate(c moveConfig) error {
 		return err
 	}
 
-	_, err = os.Stat(path.Join(c.destinationDirPath, c.sourcePath))
+	_, err = os.Stat(path.Join(c.destinationFilePath, c.sourcePath))
 	if err == nil {
 		return err
 	}
