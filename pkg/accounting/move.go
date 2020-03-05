@@ -14,10 +14,11 @@ import (
 )
 
 type moveConfig struct {
-	sourcePath         string
-	destinationPath    string
 	date               time.Time
+	rootDirPath        string
 	destinationDirPath string
+	destinationPath    string
+	sourcePath         string
 }
 
 // Handler holds all logic about create subcommand
@@ -29,27 +30,28 @@ func MoveHandler(c *cli.Context) error {
 	}
 
 	cfg := moveConfig{
-		sourcePath:         c.Args().Get(0),
-		date:               date,
-		destinationDirPath: conf.Accounting.FilesDirectory,
+		sourcePath:  c.Args().Get(0),
+		date:        date,
+		rootDirPath: conf.Accounting.FilesDirectory,
 	}
 
 	err = moveValidate(cfg)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "validate source and destination")
 	}
 
 	dir := generateDirectoryPath(cfg)
 	cfg.destinationPath = path.Join(dir, cfg.sourcePath)
+	cfg.destinationDirPath, _ = path.Split(cfg.destinationPath)
 
-	err = createDestinationDir(dir)
+	err = createDestinationDir(cfg.destinationDirPath)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "can't create destination directory")
 	}
 
 	err = cp(cfg.sourcePath, path.Join(dir, cfg.sourcePath))
 	if err != nil {
-		return err
+		return errors.Wrap(err, "can't copy file")
 	}
 
 	logrus.Infof("File moved to %s", cfg.destinationPath)
@@ -76,7 +78,6 @@ func moveValidate(c moveConfig) error {
 	if err != nil {
 		return err
 	}
-
 
 	_, err = os.Stat(path.Join(c.destinationDirPath, c.sourcePath))
 	if err == nil {
