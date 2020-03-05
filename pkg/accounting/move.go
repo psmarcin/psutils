@@ -40,7 +40,8 @@ func MoveHandler(c *cli.Context) error {
 	}
 
 	rootDestinationDirPath := generateDirectoryPath(cfg.rootDirPath, cfg.date)
-	cfg.destinationFilePath = path.Join(rootDestinationDirPath, cfg.sourcePath)
+	_, fileName := path.Split(cfg.sourcePath)
+	cfg.destinationFilePath = path.Join(rootDestinationDirPath, fileName)
 	destinationDir, _ := path.Split(cfg.destinationFilePath)
 
 	err = createDestinationDir(destinationDir)
