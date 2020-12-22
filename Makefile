@@ -7,6 +7,11 @@ dev:
 
 dependencies:
 	go mod download
+	go mod tidy
+
+update-dependencies:
+	go get -u ./...
+	go mod tidy
 
 test: dependencies
 	go test ./...

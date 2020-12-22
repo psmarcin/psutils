@@ -14,10 +14,10 @@ import (
 )
 
 type moveConfig struct {
-	date               time.Time
-	rootDirPath        string
+	date                time.Time
+	rootDirPath         string
 	destinationFilePath string
-	sourcePath         string
+	sourcePath          string
 }
 
 // Handler holds all logic about create subcommand

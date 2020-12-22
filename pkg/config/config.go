@@ -123,7 +123,7 @@ func createDefaultFile() error {
 					Name:     "Company",
 					Address1: "Forest Guy",
 					Address2: "Fire Stone 178",
-					Nip:      "9999999999",},
+					Nip:      "9999999999"},
 				Items: []string{"Documentation"},
 			},
 		},

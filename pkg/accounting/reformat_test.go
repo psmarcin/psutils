@@ -13,8 +13,8 @@ func Test_generateName(t *testing.T) {
 	}
 
 	type args struct {
-		name string
-		date time.Time
+		name  string
+		date  time.Time
 		types string
 	}
 	tests := []struct {
@@ -25,8 +25,8 @@ func Test_generateName(t *testing.T) {
 		{
 			name: "should return correct file Name",
 			args: args{
-				name: "serwer vpn",
-				date: date,
+				name:  "serwer vpn",
+				date:  date,
 				types: "faktura",
 			},
 			want: "2018-09-serwer-vpn-faktura.pdf",

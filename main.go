@@ -5,7 +5,6 @@ import (
 	"os"
 	"psutils/pkg/accounting"
 	"psutils/pkg/config"
-	gocreate "psutils/pkg/go-create"
 	"sort"
 	"time"
 
@@ -29,29 +28,6 @@ func main() {
 					Aliases: []string{"e"},
 					Usage:   "open config file in your default editor",
 					Action:  config.HandleEdit,
-				},
-			},
-		},
-		{
-			Name:    "go",
-			Aliases: []string{"g"},
-			Usage:   "helpers",
-			Subcommands: []cli.Command{
-				{
-					Name:  "create",
-					Usage: "setup new project",
-					Flags: []cli.Flag{
-						cli.BoolFlag{
-							Name:  "force, f",
-							Usage: "'--force true' cleanup existing directory and create new project",
-						},
-						cli.StringFlag{
-							Name:  "path, p",
-							Value: "./new-project",
-							Usage: "'--path=./test' path to directory where to create project",
-						},
-					},
-					Action: gocreate.Handler,
 				},
 			},
 		},
@@ -96,23 +72,10 @@ func main() {
 					},
 					Action: accounting.MoveHandler,
 				},
-				{
-					Name:    "confirmation",
-					Aliases: []string{"c"},
-					Usage:   "use to create confirmation pdf for G2A",
-					Flags: []cli.Flag{
-						cli.StringFlag{
-							Name:  "date, d",
-							Value: time.Now().Format(c.Other.MontDateFormat),
-							Usage: fmt.Sprintf("date for confirmation in format %s `DATE`-item-faktura.pdf", c.Other.MontDateFormat),
-						},
-					},
-					Action: accounting.ConfirmationHandler,
-				},
 			},
 		},
 	}
-	app.Version = "0.7.1"
+	app.Version = "1.0.0"
 
 	sort.Sort(cli.FlagsByName(app.Flags))
 	sort.Sort(cli.CommandsByName(app.Commands))
